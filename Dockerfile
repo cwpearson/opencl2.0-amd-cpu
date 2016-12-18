@@ -2,7 +2,7 @@ FROM ubuntu:16.04
 
 ENV DEBIAN_FRONTEND noninteractive
 
-RUN apt-get update -q && apt-get install --no-install-recommends -yq alien wget unzip clinfo \
+RUN apt-get update -q && apt-get install --no-install-recommends -yq wget unzip clinfo \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
