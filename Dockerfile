@@ -18,15 +18,16 @@ RUN export SDK_URL="http://www2.ati.com/drivers/linux-amd-14.41rc1-opencl2-sep19
     && mkdir -p $TGT_DIR \
     && cp -r scratch/arch/x86_64/usr/lib64/* "$TGT_DIR" \
     && mkdir -p /etc/OpenCL/vendors/ \
-    && echo "$TGT_DIR/libamdocl64.so" > /etc/OpenCL/vendors/amd.icd
+    && echo "$TGT_DIR/libamdocl64.so" > /etc/OpenCL/vendors/amd.icd \
+    && rm -rf scratch fglrx*
 
 # Download the OpenCL 2.0 headers
 RUN export TGT_DIR=/opt/amd/opencl/include \
+    && export URL="https://raw.githubusercontent.com/KhronosGroup/OpenCL-Headers/opencl20" \
     && mkdir -p $TGT_DIR && cd $TGT_DIR \
     && for u in opencl cl_platform cl cl_ext cl_gl cl_gl_ext; do \
-         wget --no-check-certificate https://raw.githubusercontent.com/KhronosGroup/OpenCL-Headers/opencl20/$u.h; \
+         wget -q --no-check-certificate $URL/$u.h; \
        done;
-#,cl_platform,cl,cl_ext,cl_gl,cl_gl_ext}.h
 
 # Let the system know where to find the OpenCL library at runtime
 ENV OCL_INC /opt/amd/opencl/include
